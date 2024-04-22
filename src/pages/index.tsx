@@ -37,15 +37,18 @@ const Home = () => {
           for (let i = 1; i <= 7; i++) {
             if (
               board[y + directions[s][0] * i] !== undefined &&
-              board[y + directions[s][0] * i][x + directions[s][1] * i] === turnColor
+              board[y + directions[s][0] * i][x + directions[s][1] * i] === 0
             ) {
-              for (let m = i; m > 0; m--) {
+              break;
+            } else if (
+              board[y + directions[s][0] * i] !== undefined &&
+              board[y + directions[s][0] * i][x + directions[s][1] * i] === turnColor
+            )
+              for (let m = i; m >= 0; m--) {
                 newBoard[y + directions[s][0] * m][x + directions[s][1] * m] = turnColor;
               }
-              newBoard[y][x] = turnColor;
-              setTurnColor(2 / turnColor);
-              setBoard(newBoard);
-            }
+            setTurnColor(2 / turnColor);
+            setBoard(newBoard);
           }
         }
       }
