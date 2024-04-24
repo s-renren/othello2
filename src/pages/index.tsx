@@ -16,6 +16,7 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+
   const clickHandler = (x: number, y: number) => {
     const newBoard = structuredClone(board);
     const directions = [
@@ -29,7 +30,7 @@ const Home = () => {
       [1, 1],
     ];
 
-    if (board[y][x] === 0) {
+    if (board[y][x] === 3) {
       for (let s = 0; s <= 7; s++) {
         if (
           board[y + directions[s][0]] !== undefined &&
@@ -69,14 +70,42 @@ const Home = () => {
     }
     setBlackN(newBlackN);
     setWhiteN(newWhiteN);
+
+    // for (let xAxisP = 0; xAxisP < 8; xAxisP++) {
+    //   for (let yAxisP = 0; yAxisP < 8; yAxisP++) {
+    //     if (board[yAxisP][xAxisP] === 0) {
+    //       for (let o = 0; o < 8; o++) {
+    //         if (
+    //           board[yAxisP + directions[o][0]] !== undefined &&
+    //           board[yAxisP + directions[o][0]][xAxisP + directions[o][1]] === 2 / turnColor
+    //         ) {
+    //           for (let p = 1; p < 8; p++) {
+    //             if (
+    //               board[yAxisP + directions[o][1] * p] !== undefined &&
+    //               board[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 0
+    //             ) {
+    //               break;
+    //             } else if (
+    //               board[yAxisP + directions[o][1] * p] !== undefined &&
+    //               board[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === turnColor
+    //             ) {
+    //               newBoard[yAxisP][xAxisP] = 3;
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    setBoard(newBoard);
+    // }
   };
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.result}>
+      <p className={styles.result}>
         black:{blackN} vs white:{whiteN}
-      </h2>
-      <h2 className={styles.turn}>{turnColor === 1 ? 'turn: black' : 'turn: white'}</h2>
+      </p>
+      <p className={styles.turn}>{turnColor === 1 ? 'turn: black' : 'turn: white'}</p>
       <div className={styles.boardStyle}>
         {board.map((row, y) =>
           row.map((color, x) => (
@@ -84,7 +113,11 @@ const Home = () => {
               {color !== 0 && (
                 <div
                   className={styles.stoneStyle}
-                  style={{ background: color === 1 ? '#000' : '#fff' }}
+                  style={{
+                    background: color === 1 ? '#000' : color === 2 ? '#fff' : '#a0d8ef',
+                    width: color !== 3 ? '60px' : '30px',
+                    height: color !== 3 ? '60px' : '30px',
+                  }}
                 />
               )}
             </div>

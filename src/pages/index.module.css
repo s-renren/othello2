@@ -40,6 +40,7 @@
   height: 50px;
   margin-top: 0;
   margin-bottom: 0;
+  font-size: 30px;
   outline: dashed 1px black;
 }
 
@@ -48,6 +49,14 @@
   align-items: center;
   justify-content: center;
   margin-top: 0;
+  font-size: 30px;
+}
+
+.can {
+  width: 25px;
+  height: 25px;
+  background-color: skyblue;
+  border-radius: 50%;
 }
 
 .main {
