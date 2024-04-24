@@ -44,12 +44,13 @@ const Home = () => {
             } else if (
               board[y + directions[s][0] * i] !== undefined &&
               board[y + directions[s][0] * i][x + directions[s][1] * i] === turnColor
-            )
+            ) {
               for (let m = i; m >= 0; m--) {
                 newBoard[y + directions[s][0] * m][x + directions[s][1] * m] = turnColor;
               }
-            setTurnColor(2 / turnColor);
-            setBoard(newBoard);
+              setTurnColor(2 / turnColor);
+              setBoard(newBoard);
+            }
           }
         }
       }
@@ -75,9 +76,7 @@ const Home = () => {
       <h2 className={styles.result}>
         black:{blackN} vs white:{whiteN}
       </h2>
-      <h2 className={styles.turn}>
-        {turnColor === 1 ? 'turn: black' : 'turn: white'}
-        </h2>
+      <h2 className={styles.turn}>{turnColor === 1 ? 'turn: black' : 'turn: white'}</h2>
       <div className={styles.boardStyle}>
         {board.map((row, y) =>
           row.map((color, x) => (
