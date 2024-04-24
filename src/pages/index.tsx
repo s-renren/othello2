@@ -16,7 +16,6 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-
   const clickHandler = (x: number, y: number) => {
     const newBoard = structuredClone(board);
     const directions = [
@@ -55,32 +54,43 @@ const Home = () => {
         }
       }
     }
+    let newBlackN = 0;
+    let newWhiteN = 0;
+
+    for (let xAxis = 0; xAxis < 8; xAxis++) {
+      for (let yAxis = 0; yAxis < 8; yAxis++) {
+        if (newBoard[yAxis][xAxis] === 1) {
+          newBlackN += 1;
+        } else if (newBoard[yAxis][xAxis] === 2) {
+          newWhiteN += 1;
+        }
+      }
+    }
+    setBlackN(newBlackN);
+    setWhiteN(newWhiteN);
   };
 
   return (
-    <div>
-      <div>
+    <div className={styles.container}>
+      <h2 className={styles.result}>
         black:{blackN} vs white:{whiteN}
-      </div>
-      <div className={styles.container}>
-        <div className={styles.boardStyle}>
-          {board.map((row, y) =>
-            row.map((color, x) => (
-              <div
-                className={styles.cellStyle}
-                key={`${x}-${y}`}
-                onClick={() => clickHandler(x, y)}
-              >
-                {color !== 0 && (
-                  <div
-                    className={styles.stoneStyle}
-                    style={{ background: color === 1 ? '#000' : '#fff' }}
-                  />
-                )}
-              </div>
-            )),
-          )}
-        </div>
+      </h2>
+      <h2 className={styles.turn}>
+        {turnColor === 1 ? 'turn: black' : 'turn: white'}
+        </h2>
+      <div className={styles.boardStyle}>
+        {board.map((row, y) =>
+          row.map((color, x) => (
+            <div className={styles.cellStyle} key={`${x}-${y}`} onClick={() => clickHandler(x, y)}>
+              {color !== 0 && (
+                <div
+                  className={styles.stoneStyle}
+                  style={{ background: color === 1 ? '#000' : '#fff' }}
+                />
+              )}
+            </div>
+          )),
+        )}
       </div>
     </div>
   );
