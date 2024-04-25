@@ -3,8 +3,8 @@ import styles from './index.module.css';
 
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
-  const [blackN, setBlackN] = useState(2);
-  const [whiteN, setWhiteN] = useState(2);
+  // const [blackN, setBlackN] = useState(2);
+  // const [whiteN, setWhiteN] = useState(2);
 
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,6 +28,11 @@ const Home = () => {
     [1, 1],
   ];
 
+  // const countStone = () => {
+  //   const blackN = (board.flat()).filter(() => 1)
+  // }
+
+
   const clickHandler = (x: number, y: number) => {
     if (board[y][x] === 0) {
       return;
@@ -44,6 +49,7 @@ const Home = () => {
     }
     setBoard(newBoard);
 
+    // コマをひっくり返す
     if (board[y][x] === 3) {
       for (let s = 0; s <= 7; s++) {
         if (
@@ -77,23 +83,22 @@ const Home = () => {
     }
 
     // 石の数を数える
-    let newBlackN = 0;
-    let newWhiteN = 0;
+    // let newBlackN = 0;
+    // let newWhiteN = 0;
 
-    for (let xAxis = 0; xAxis <= 7; xAxis++) {
-      for (let yAxis = 0; yAxis <= 7; yAxis++) {
-        if (newBoard[yAxis][xAxis] === 1) {
-          newBlackN += 1;
-        } else if (newBoard[yAxis][xAxis] === 2) {
-          newWhiteN += 1;
-        }
-      }
-    }
-    setBlackN(newBlackN);
-    setWhiteN(newWhiteN);
+    // for (let xAxis = 0; xAxis <= 7; xAxis++) {
+    //   for (let yAxis = 0; yAxis <= 7; yAxis++) {
+    //     if (newBoard[yAxis][xAxis] === 1) {
+    //       newBlackN += 1;
+    //     } else if (newBoard[yAxis][xAxis] === 2) {
+    //       newWhiteN += 1;
+    //     }
+    //   }
+    // }
+    // setBlackN(newBlackN);
+    // setWhiteN(newWhiteN);
 
     // 候補地を出す
-    console.log('turnColor =', turnColor);
     for (let xAxisP = 0; xAxisP <= 7; xAxisP++) {
       for (let yAxisP = 0; yAxisP <= 7; yAxisP++) {
         if (newBoard[yAxisP][xAxisP] === 0) {
@@ -102,10 +107,6 @@ const Home = () => {
               newBoard[yAxisP + directions[o][0]] !== undefined &&
               newBoard[yAxisP + directions[o][0]][xAxisP + directions[o][1]] === turnColor
             ) {
-              console.log(
-                'boardcolor',
-                newBoard[yAxisP + directions[o][0]][xAxisP + directions[o][1]],
-              );
               for (let p = 1; p <= 7; p++) {
                 if (
                   newBoard[yAxisP + directions[o][0] * p] !== undefined &&
@@ -128,14 +129,6 @@ const Home = () => {
                   newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
                     2 / turnColor
                 ) {
-                  console.log('start=', yAxisP, xAxisP);
-                  console.log(
-                    'end=',
-                    yAxisP + directions[o][0] * p,
-                    xAxisP + directions[o][1] * p,
-                    'boardNum = ',
-                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p],
-                  );
                   newBoard[yAxisP][xAxisP] = 3;
                 }
               }
