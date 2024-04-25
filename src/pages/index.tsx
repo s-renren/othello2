@@ -3,8 +3,8 @@ import styles from './index.module.css';
 
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
-  // const [blackN, setBlackN] = useState(2);
-  // const [whiteN, setWhiteN] = useState(2);
+  const [blackN, setBlackN] = useState(2);
+  const [whiteN, setWhiteN] = useState(2);
 
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -27,11 +27,6 @@ const Home = () => {
     [1, 0],
     [1, 1],
   ];
-
-  // const countStone = () => {
-  //   const blackN = (board.flat()).filter(() => 1)
-  // }
-
 
   const clickHandler = (x: number, y: number) => {
     if (board[y][x] === 0) {
@@ -83,20 +78,13 @@ const Home = () => {
     }
 
     // 石の数を数える
-    // let newBlackN = 0;
-    // let newWhiteN = 0;
+    let newBlackN = 0;
+    let newWhiteN = 0;
 
-    // for (let xAxis = 0; xAxis <= 7; xAxis++) {
-    //   for (let yAxis = 0; yAxis <= 7; yAxis++) {
-    //     if (newBoard[yAxis][xAxis] === 1) {
-    //       newBlackN += 1;
-    //     } else if (newBoard[yAxis][xAxis] === 2) {
-    //       newWhiteN += 1;
-    //     }
-    //   }
-    // }
-    // setBlackN(newBlackN);
-    // setWhiteN(newWhiteN);
+    newBlackN = newBoard.flat().filter((numB) => numB === 1).length;
+    newWhiteN = newBoard.flat().filter((numW) => numW === 2).length;
+    setBlackN(newBlackN);
+    setWhiteN(newWhiteN);
 
     // 候補地を出す
     for (let xAxisP = 0; xAxisP <= 7; xAxisP++) {
