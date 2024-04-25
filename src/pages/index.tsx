@@ -5,16 +5,6 @@ const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
   const [blackN, setBlackN] = useState(2);
   const [whiteN, setWhiteN] = useState(2);
-  const directions = [
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-    [0, -1],
-    [0, 1],
-    [1, -1],
-    [1, 0],
-    [1, 1],
-  ];
 
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -26,6 +16,17 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
+
+  const directions = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ];
 
   const clickHandler = (x: number, y: number) => {
     if (board[y][x] === 0) {
@@ -72,6 +73,7 @@ const Home = () => {
           }
         }
       }
+      setTurnColor(2 / turnColor);
     }
 
     // 石の数を数える
@@ -91,30 +93,49 @@ const Home = () => {
     setWhiteN(newWhiteN);
 
     // 候補地を出す
+    console.log('turnColor =', turnColor);
     for (let xAxisP = 0; xAxisP <= 7; xAxisP++) {
       for (let yAxisP = 0; yAxisP <= 7; yAxisP++) {
-        if (board[yAxisP][xAxisP] === 0) {
+        if (newBoard[yAxisP][xAxisP] === 0) {
           for (let o = 0; o <= 7; o++) {
             if (
-              board[yAxisP + directions[o][0]] !== undefined &&
-              board[yAxisP + directions[o][0]][xAxisP + directions[o][1]] === turnColor
+              newBoard[yAxisP + directions[o][0]] !== undefined &&
+              newBoard[yAxisP + directions[o][0]][xAxisP + directions[o][1]] === turnColor
             ) {
+              console.log(
+                'boardcolor',
+                newBoard[yAxisP + directions[o][0]][xAxisP + directions[o][1]],
+              );
               for (let p = 1; p <= 7; p++) {
                 if (
-                  board[yAxisP + directions[o][0] * p] !== undefined &&
-                  board[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 0
+                  newBoard[yAxisP + directions[o][0] * p] !== undefined &&
+                  newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 0
                 ) {
                   break;
                 } else if (
-                  board[yAxisP + directions[o][0] * p] !== undefined &&
-                  board[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 3
+                  newBoard[yAxisP + directions[o][0] * p] !== undefined &&
+                  newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 3
                 ) {
                   break;
                 } else if (
-                  board[yAxisP + directions[o][0] * p] !== undefined &&
-                  board[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
+                  newBoard[yAxisP + directions[o][0] * p] !== undefined &&
+                  newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
+                    turnColor
+                ) {
+                  continue;
+                } else if (
+                  newBoard[yAxisP + directions[o][0] * p] !== undefined &&
+                  newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
                     2 / turnColor
                 ) {
+                  console.log('start=', yAxisP, xAxisP);
+                  console.log(
+                    'end=',
+                    yAxisP + directions[o][0] * p,
+                    xAxisP + directions[o][1] * p,
+                    'boardNum = ',
+                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p],
+                  );
                   newBoard[yAxisP][xAxisP] = 3;
                 }
               }
@@ -124,7 +145,6 @@ const Home = () => {
       }
       setBoard(newBoard);
     }
-    setTurnColor(2 / turnColor);
   };
 
   return (
