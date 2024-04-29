@@ -28,51 +28,6 @@ const Home = () => {
     [1, 1],
   ];
 
-
-  const proposeCell = () => {
-    const proBoard = structuredClone(board);
-    for (let xAxisP = 0; xAxisP <= 7; xAxisP++) {
-      for (let yAxisP = 0; yAxisP <= 7; yAxisP++) {
-        if (proBoard[yAxisP][xAxisP] === 0) {
-          for (let o = 0; o <= 7; o++) {
-            if (
-              proBoard[yAxisP + directions[o][0]] !== undefined &&
-              proBoard[yAxisP + directions[o][0]][xAxisP + directions[o][1]] === turnColor
-            ) {
-              for (let p = 1; p <= 7; p++) {
-                if (
-                  proBoard[yAxisP + directions[o][0] * p] !== undefined &&
-                  proBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 0
-                ) {
-                  break;
-                } else if (
-                  proBoard[yAxisP + directions[o][0] * p] !== undefined &&
-                  proBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 3
-                ) {
-                  break;
-                } else if (
-                  proBoard[yAxisP + directions[o][0] * p] !== undefined &&
-                  proBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
-                    turnColor
-                ) {
-                  continue;
-                } else if (
-                  proBoard[yAxisP + directions[o][0] * p] !== undefined &&
-                  proBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
-                    2 / turnColor
-                ) {
-                  proBoard[yAxisP][xAxisP] = 3;
-                }
-              }
-            }
-          }
-        }
-      }
-      setBoard(proBoard);
-    }
-  };
-
-
   const clickHandler = (x: number, y: number) => {
     if (board[y][x] === 0) {
       return;
@@ -87,7 +42,6 @@ const Home = () => {
         }
       }
     }
-    setBoard(newBoard);
 
     // コマをひっくり返す
     if (board[y][x] === 3) {
@@ -114,12 +68,13 @@ const Home = () => {
               for (let m = i; m >= 0; m--) {
                 newBoard[y + directions[s][0] * m][x + directions[s][1] * m] = turnColor;
               }
-              setBoard(newBoard);
             }
           }
         }
       }
       setTurnColor(2 / turnColor);
+    } else {
+      return;
     }
 
     // 石の数を数える
@@ -132,51 +87,87 @@ const Home = () => {
     setWhiteN(newWhiteN);
 
     // 候補地を出す
-  proposeCell();
-  //   for (let xAxisP = 0; xAxisP <= 7; xAxisP++) {
-  //     for (let yAxisP = 0; yAxisP <= 7; yAxisP++) {
-  //       if (newBoard[yAxisP][xAxisP] === 0) {
-  //         for (let o = 0; o <= 7; o++) {
-  //           if (
-  //             newBoard[yAxisP + directions[o][0]] !== undefined &&
-  //             newBoard[yAxisP + directions[o][0]][xAxisP + directions[o][1]] === turnColor
-  //           ) {
-  //             for (let p = 1; p <= 7; p++) {
-  //               if (
-  //                 newBoard[yAxisP + directions[o][0] * p] !== undefined &&
-  //                 newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 0
-  //               ) {
-  //                 break;
-  //               } else if (
-  //                 newBoard[yAxisP + directions[o][0] * p] !== undefined &&
-  //                 newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 3
-  //               ) {
-  //                 break;
-  //               } else if (
-  //                 newBoard[yAxisP + directions[o][0] * p] !== undefined &&
-  //                 newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
-  //                   turnColor
-  //               ) {
-  //                 continue;
-  //               } else if (
-  //                 newBoard[yAxisP + directions[o][0] * p] !== undefined &&
-  //                 newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
-  //                   2 / turnColor
-  //               ) {
-  //                 newBoard[yAxisP][xAxisP] = 3;
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //     setBoard(newBoard);
-  //   }
-  //   // 3がなかったらターンを変える
-  //   // if (newBoard.flat().filter((numW) => numW === 3).length === 0) {
-  //   //   setTurnColor(2 / turnColor);
-  //   // }
-  // };
+    newBoard.forEach((row, j) =>
+      row.forEach((num, i) => {
+        if (newBoard[i][j] === 0) {
+          for (let o = 0; o <= 7; o++) {
+            if (
+              newBoard[i + directions[o][0]] !== undefined &&
+              newBoard[i + directions[o][0]][j + directions[o][1]] === turnColor
+            ) {
+              for (let p = 1; p <= 7; p++) {
+                if (
+                  newBoard[i + directions[o][0] * p] !== undefined &&
+                  newBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 0
+                ) {
+                  break;
+                } else if (
+                  newBoard[i + directions[o][0] * p] !== undefined &&
+                  newBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 3
+                ) {
+                  break;
+                } else if (
+                  newBoard[i + directions[o][0] * p] !== undefined &&
+                  newBoard[i + directions[o][0] * p][j + directions[o][1] * p] === turnColor
+                ) {
+                  continue;
+                } else if (
+                  newBoard[i + directions[o][0] * p] !== undefined &&
+                  newBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 2 / turnColor
+                ) {
+                  newBoard[i][j] = 3;
+                }
+              }
+            }
+          }
+        }
+      }),
+    );
+
+    // 候補地がない場合、スキップして新たに候補地を出す
+    if (newBoard.flat().filter((numW) => numW === 3).length === 0) {
+      setTurnColor(turnColor);
+      for (let xAxisP = 0; xAxisP <= 7; xAxisP++) {
+        for (let yAxisP = 0; yAxisP <= 7; yAxisP++) {
+          if (newBoard[yAxisP][xAxisP] === 0) {
+            for (let o = 0; o <= 7; o++) {
+              if (
+                newBoard[yAxisP + directions[o][0]] !== undefined &&
+                newBoard[yAxisP + directions[o][0]][xAxisP + directions[o][1]] === 2 / turnColor
+              ) {
+                for (let p = 1; p <= 7; p++) {
+                  if (
+                    newBoard[yAxisP + directions[o][0] * p] !== undefined &&
+                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 0
+                  ) {
+                    break;
+                  } else if (
+                    newBoard[yAxisP + directions[o][0] * p] !== undefined &&
+                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 3
+                  ) {
+                    break;
+                  } else if (
+                    newBoard[yAxisP + directions[o][0] * p] !== undefined &&
+                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
+                      2 / turnColor
+                  ) {
+                    continue;
+                  } else if (
+                    newBoard[yAxisP + directions[o][0] * p] !== undefined &&
+                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
+                      turnColor
+                  ) {
+                    newBoard[yAxisP][xAxisP] = 3;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    setBoard(newBoard);
+  };
 
   return (
     <div className={styles.container}>
