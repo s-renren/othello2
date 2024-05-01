@@ -169,12 +169,20 @@ const Home = () => {
     setBoard(newBoard);
   };
 
+  const isEnd = board.flat().includes(0 || 3);
+
   return (
     <div className={styles.container}>
       <p className={styles.result}>
         black:{blackN} vs white:{whiteN}
       </p>
-      <p className={styles.turn}>{turnColor === 1 ? 'turn: black' : 'turn: white'}</p>
+      <p className={styles.turn}>
+        {!isEnd
+          ? `${['白の勝ち', '黒の勝ち', '引き分け'][(blackN >= whiteN ? 1 : 0) + (blackN === whiteN ? 1 : 0)]}です。`
+          : turnColor === 1
+            ? 'turn: black'
+            : 'turn: white'}
+      </p>
       <div className={styles.boardStyle}>
         {board.map((row, y) =>
           row.map((color, x) => (
