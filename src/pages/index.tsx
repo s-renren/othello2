@@ -3,8 +3,6 @@ import styles from './index.module.css';
 
 const Home = () => {
   const [turnColor, setTurnColor] = useState(1);
-  const [blackN, setBlackN] = useState(2);
-  const [whiteN, setWhiteN] = useState(2);
 
   const [board, setBoard] = useState([
     [0, 0, 0, 0, 0, 0, 0, 0],
@@ -17,6 +15,9 @@ const Home = () => {
     [0, 0, 0, 0, 0, 0, 0, 0],
   ]);
 
+  const blackN = board.flat().filter((numB) => numB === 1).length;
+  const whiteN = board.flat().filter((numW) => numW === 2).length;
+
   const directions = [
     [-1, -1],
     [-1, 0],
@@ -28,18 +29,56 @@ const Home = () => {
     [1, 1],
   ];
 
+  const proposeBoard = (turnColor: number, proBoard: number[][]) => {
+    // 候補地を出す
+    for (let j = 0; j <= 7; j++) {
+      for (let i = 0; i <= 7; i++) {
+        if (proBoard[i][j] === 0) {
+          for (let o = 0; o <= 7; o++) {
+            if (
+              proBoard[i + directions[o][0]] !== undefined &&
+              proBoard[i + directions[o][0]][j + directions[o][1]] === turnColor
+            ) {
+              for (let p = 1; p <= 7; p++) {
+                if (
+                  proBoard[i + directions[o][0] * p] !== undefined &&
+                  proBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 0
+                ) {
+                  break;
+                } else if (
+                  proBoard[i + directions[o][0] * p] !== undefined &&
+                  proBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 3
+                ) {
+                  break;
+                } else if (
+                  proBoard[i + directions[o][0] * p] !== undefined &&
+                  proBoard[i + directions[o][0] * p][j + directions[o][1] * p] === turnColor
+                ) {
+                  continue;
+                } else if (
+                  proBoard[i + directions[o][0] * p] !== undefined &&
+                  proBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 2 / turnColor
+                ) {
+                  proBoard[i][j] = 3;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+
   const clickHandler = (x: number, y: number) => {
-    if (board[y][x] === 0) {
+    if (board[y][x] !== 3) {
       return;
     }
-
     const newBoard = structuredClone(board);
 
+    // 候補地の初期化
     for (let xAxisR = 0; xAxisR <= 7; xAxisR++) {
       for (let yAxisR = 0; yAxisR <= 7; yAxisR++) {
-        if (board[yAxisR][xAxisR] === 3) {
-          newBoard[yAxisR][xAxisR] = 0;
-        }
+        newBoard[yAxisR][xAxisR] %= 3;
       }
     }
 
@@ -72,104 +111,20 @@ const Home = () => {
           }
         }
       }
-      setTurnColor(2 / turnColor);
     } else {
       return;
     }
-
-    // 石の数を数える
-    let newBlackN = 0;
-    let newWhiteN = 0;
-
-    newBlackN = newBoard.flat().filter((numB) => numB === 1).length;
-    newWhiteN = newBoard.flat().filter((numW) => numW === 2).length;
-    setBlackN(newBlackN);
-    setWhiteN(newWhiteN);
-
-    // 候補地を出す
-    newBoard.forEach((row, j) =>
-      row.forEach((num, i) => {
-        if (newBoard[i][j] === 0) {
-          for (let o = 0; o <= 7; o++) {
-            if (
-              newBoard[i + directions[o][0]] !== undefined &&
-              newBoard[i + directions[o][0]][j + directions[o][1]] === turnColor
-            ) {
-              for (let p = 1; p <= 7; p++) {
-                if (
-                  newBoard[i + directions[o][0] * p] !== undefined &&
-                  newBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 0
-                ) {
-                  break;
-                } else if (
-                  newBoard[i + directions[o][0] * p] !== undefined &&
-                  newBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 3
-                ) {
-                  break;
-                } else if (
-                  newBoard[i + directions[o][0] * p] !== undefined &&
-                  newBoard[i + directions[o][0] * p][j + directions[o][1] * p] === turnColor
-                ) {
-                  continue;
-                } else if (
-                  newBoard[i + directions[o][0] * p] !== undefined &&
-                  newBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 2 / turnColor
-                ) {
-                  newBoard[i][j] = 3;
-                }
-              }
-            }
-          }
-        }
-      }),
-    );
-
-    // 候補地がない場合、スキップして新たに候補地を出す
-    if (newBoard.flat().filter((numW) => numW === 3).length === 0) {
-      setTurnColor(turnColor);
-      for (let xAxisP = 0; xAxisP <= 7; xAxisP++) {
-        for (let yAxisP = 0; yAxisP <= 7; yAxisP++) {
-          if (newBoard[yAxisP][xAxisP] === 0) {
-            for (let o = 0; o <= 7; o++) {
-              if (
-                newBoard[yAxisP + directions[o][0]] !== undefined &&
-                newBoard[yAxisP + directions[o][0]][xAxisP + directions[o][1]] === 2 / turnColor
-              ) {
-                for (let p = 1; p <= 7; p++) {
-                  if (
-                    newBoard[yAxisP + directions[o][0] * p] !== undefined &&
-                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 0
-                  ) {
-                    break;
-                  } else if (
-                    newBoard[yAxisP + directions[o][0] * p] !== undefined &&
-                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] === 3
-                  ) {
-                    break;
-                  } else if (
-                    newBoard[yAxisP + directions[o][0] * p] !== undefined &&
-                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
-                      2 / turnColor
-                  ) {
-                    continue;
-                  } else if (
-                    newBoard[yAxisP + directions[o][0] * p] !== undefined &&
-                    newBoard[yAxisP + directions[o][0] * p][xAxisP + directions[o][1] * p] ===
-                      turnColor
-                  ) {
-                    newBoard[yAxisP][xAxisP] = 3;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+    proposeBoard(turnColor, newBoard);
+    if (!newBoard.flat().includes(3)) {
+      proposeBoard(2 / turnColor, newBoard);
+    } else {
+      setTurnColor(2 / turnColor);
     }
+
     setBoard(newBoard);
   };
 
-  const isEnd = board.flat().includes(0 || 3);
+  const isEnd = !board.flat().includes(3);
 
   return (
     <div className={styles.container}>
@@ -177,11 +132,9 @@ const Home = () => {
         black:{blackN} vs white:{whiteN}
       </p>
       <p className={styles.turn}>
-        {!isEnd
-          ? `${['白の勝ち', '黒の勝ち', '引き分け'][(blackN >= whiteN ? 1 : 0) + (blackN === whiteN ? 1 : 0)]}です。`
-          : turnColor === 1
-            ? 'turn: black'
-            : 'turn: white'}
+        {isEnd
+          ? `${['白の勝ち', '黒の勝ち', '引き分け'][+(blackN >= whiteN) + +(blackN === whiteN)]}です。`
+          : `turn: ${['white', 'black'][turnColor - 1]}`}
       </p>
       <div className={styles.boardStyle}>
         {board.map((row, y) =>
