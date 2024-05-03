@@ -136,7 +136,7 @@ const Home = () => {
       <p className={styles.turn}>
         {isEnd
           ? `${['白の勝ち', '黒の勝ち', '引き分け'][+(blackN >= whiteN) + +(blackN === whiteN)]}です。`
-          : `turn: ${['white', 'black'][turnColor - 1]}`}
+          : `turn: ${['black', 'white'][turnColor - 1]}`}
       </p>
       <div className={styles.boardStyle}>
         {board.map((row, y) =>
