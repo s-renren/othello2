@@ -34,30 +34,30 @@ const Home = () => {
     for (let j = 0; j <= 7; j++) {
       for (let i = 0; i <= 7; i++) {
         if (proBoard[i][j] === 0) {
-          for (let o = 0; o <= 7; o++) {
+          for (let k = 0; k <= 7; k++) {
             if (
-              proBoard[i + directions[o][0]] !== undefined &&
-              proBoard[i + directions[o][0]][j + directions[o][1]] === turnColor
+              proBoard[i + directions[k][0]] !== undefined &&
+              proBoard[i + directions[k][0]][j + directions[k][1]] === turnColor
             ) {
               for (let p = 1; p <= 7; p++) {
                 if (
-                  proBoard[i + directions[o][0] * p] !== undefined &&
-                  proBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 0
+                  proBoard[i + directions[k][0] * p] !== undefined &&
+                  proBoard[i + directions[k][0] * p][j + directions[k][1] * p] === 0
                 ) {
                   break;
                 } else if (
-                  proBoard[i + directions[o][0] * p] !== undefined &&
-                  proBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 3
+                  proBoard[i + directions[k][0] * p] !== undefined &&
+                  proBoard[i + directions[k][0] * p][j + directions[k][1] * p] === 3
                 ) {
                   break;
                 } else if (
-                  proBoard[i + directions[o][0] * p] !== undefined &&
-                  proBoard[i + directions[o][0] * p][j + directions[o][1] * p] === turnColor
+                  proBoard[i + directions[k][0] * p] !== undefined &&
+                  proBoard[i + directions[k][0] * p][j + directions[k][1] * p] === turnColor
                 ) {
                   continue;
                 } else if (
-                  proBoard[i + directions[o][0] * p] !== undefined &&
-                  proBoard[i + directions[o][0] * p][j + directions[o][1] * p] === 2 / turnColor
+                  proBoard[i + directions[k][0] * p] !== undefined &&
+                  proBoard[i + directions[k][0] * p][j + directions[k][1] * p] === 2 / turnColor
                 ) {
                   proBoard[i][j] = 3;
                 }
@@ -114,6 +114,8 @@ const Home = () => {
     } else {
       return;
     }
+
+    // 候補地がなかったらターンを変えずに候補地を出す
     proposeBoard(turnColor, newBoard);
     if (!newBoard.flat().includes(3)) {
       proposeBoard(2 / turnColor, newBoard);
