@@ -22,13 +22,29 @@
   justify-content: center;
   width: 80px;
   height: 80px;
-  border: solid 1px black;
+  border: solid 2px black;
+  border: outset 3px #005a12;
+  border-radius: 15%;
 }
 
-.stoneStyle {
+.stone1Style {
   width: 60px;
   height: 60px;
-  background-color: white;
+  background: linear-gradient(120deg, #737373 , #000 50%);
+  border-radius: 50%;
+}
+
+.stone2Style {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(120deg,#666, #fff 50%);
+  border-radius: 50%;
+}
+
+.stone3Style {
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(120deg, skyblue, #0078d3 150%);
   border-radius: 50%;
 }
 
