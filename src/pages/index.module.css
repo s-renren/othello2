@@ -14,6 +14,7 @@
   width: 640px;
   height: 640px;
   background-color: green;
+  border-radius: 2%;
 }
 
 .cellStyle {
@@ -23,7 +24,6 @@
   width: 80px;
   height: 80px;
   border: solid 2px black;
-  border: outset 3px #005a12;
   border-radius: 15%;
 }
 
@@ -42,9 +42,16 @@
 }
 
 .stone3Style {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(120deg, skyblue, #0078d3 150%);
+  border-radius: 50%;
+}
+
+.stone3Style:hover {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(120deg, skyblue, #d300c5 150%);
   border-radius: 50%;
 }
 
