@@ -13,8 +13,6 @@
   flex-wrap: wrap;
   width: 640px;
   height: 640px;
-  background-color: green;
-  border-radius: 2%;
 }
 
 .cellStyle {
@@ -23,34 +21,35 @@
   justify-content: center;
   width: 80px;
   height: 80px;
+  background-color: green;
   border: solid 2px black;
-  border-radius: 15%;
+  border-radius: 10%;
 }
 
 .stone1Style {
   width: 60px;
   height: 60px;
-  background: linear-gradient(120deg, #737373 , #000 50%);
+  background: linear-gradient(120deg, #737373, #000 50%);
   border-radius: 50%;
 }
 
 .stone2Style {
   width: 60px;
   height: 60px;
-  background: linear-gradient(120deg,#666, #fff 50%);
+  background: linear-gradient(120deg, #666, #fff 50%);
   border-radius: 50%;
 }
 
 .stone3Style {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background: linear-gradient(120deg, skyblue, #0078d3 150%);
   border-radius: 50%;
 }
 
 .stone3Style:hover {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   background: linear-gradient(120deg, skyblue, #d300c5 150%);
   border-radius: 50%;
 }
